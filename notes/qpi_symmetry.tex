@@ -1,0 +1,139 @@
+\documentclass[10pt]{article}
+
+\usepackage{setspace}
+\usepackage{amsmath, amssymb, graphicx}
+\usepackage{physics}
+\usepackage{booktabs, array}
+\usepackage[a4paper, total={16cm, 24.5cm}]{geometry}
+\usepackage{cancel}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{xfrac}
+\usepackage{listings, hyperref}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{bm}
+
+\newcommand{\ie}{{\it i.e.},\ }
+\def\eg{\emph{e.g.}\ }
+\def\ea{\emph{et al.}}
+\def\cf{\emph{c.f.}\ }
+\newcommand{\pd}{{\phantom{\dagger}}}
+\newcommand{\vk}{\mathbf{k}}
+\newcommand{\vd}{\textbf{\textit{d}}}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\ba}{\boldsymbol{a}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bdelta}{\boldsymbol{\delta}}
+\newcommand{\vdel}{\bm{\delta}}
+\newcommand{\vc}{\bm{c}}
+\newcommand{\bK}{\bm{K}}
+\newcommand{\bR}{\bm{R}}
+\newcommand{\bk}{\boldsymbol{k}}
+\newcommand{\bq}{\boldsymbol{q}}
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\graphicspath{{/}{images/}}
+
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+
+
+\begin{document}
+
+\title{QPI SC symmetry}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\section{SC Basics}
+
+BdG Hamiltonian:
+\begin{align}
+    H (\bk)  &= \begin{pmatrix}
+        \varepsilon (\bk) & \Delta (\bk) \\
+        \Delta^{*} (\bk) & -\varepsilon (\bk)
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \frac{\Delta}{\sqrt{2E (E + \varepsilon )}} & \frac{\Delta}{\sqrt{2E (E - \varepsilon)}} \\
+        \frac{-(E+\varepsilon)}{\sqrt{2E (E + \varepsilon )}} & \frac{E - \varepsilon}{\sqrt{2E (E - \varepsilon)}}
+    \end{pmatrix}
+    \begin{pmatrix}
+        - E & 0 \\
+        0 & E
+    \end{pmatrix}
+    \begin{pmatrix}
+        \frac{\Delta^*}{\sqrt{2E (E + \varepsilon )}} &  \frac{-(E+\varepsilon)}{\sqrt{2E (E + \varepsilon )}}\\
+        \frac{\Delta^*}{\sqrt{2E (E - \varepsilon)}} & \frac{E - \varepsilon}{\sqrt{2E (E - \varepsilon)}}
+    \end{pmatrix} \\
+    &= U (\bk) \Lambda (\bk) U^\dagger (\bk)
+\end{align}
+with $E = \sqrt{\varepsilon^2 + |\Delta|^2}$
+
+Retarded Green's function:
+\begin{align}
+    G_0 (\omega, \bk) &= \frac{1}{ \omega + i \Gamma - H (\bk) } \\
+    &= U (\bk) \frac{1}{ \omega + i \Gamma - \Lambda (\bk) } U^\dagger (\bk)
+\end{align}
+
+\section{QPI Basics}
+
+We consider a local impurity in the presence of the superconducting phase defined by the Hamiltonian
+\begin{equation}
+    H = H_0 + V \, ,
+\end{equation}
+where $H_0$ is the unperturbed (impurity-free) superconducting Hamiltonian. $V$ is the local impurity term, given as
+\begin{equation} \label{eqn:impurity_ham}
+    V = \sum_{i \, \sigma \sigma'} [ \hat V ]_{\sigma \sigma'}^{\phantom{\dagger}} \delta^{\phantom{\dagger}}_{i, \, \boldsymbol{R} = 0} c^\dagger_{i \sigma} c^{\phantom{\dagger}}_{i \sigma'} \, ,
+\end{equation}
+where $\hat V = V_0 \, \hat I$ for a scalar impurity and $\hat V = V_0 \, \hat \sigma_z$ for a magnetic impurity%\,\cite{balatsky2006}.
+The QPI spectra are calculated using the $T$-matrix formalism%\,\cite{hirschfeld2015, bunney2026},
+\begin{equation} \label{eqn:qpi_rs}
+    \delta \rho (\omega, \br) = - \frac{1}{\pi}  \text{Im} [  \text{Tr} [ \hat G_0 (\omega, \br) \, \hat T (\omega) \, \hat G_0 ( \omega, - \br) ] ] \, ,
+\end{equation}
+where the $T$-matrix can be shown to take the form:
+\begin{equation}
+    \hat T ( \omega ) = \frac{\hat V}{1- \hat G_0 (\omega, \br = 0) \hat V} \; .
+\end{equation}
+While this definition of the $T$-matrix is a formal definition, in practice it can be calculated as the non-trivial solution to the matrix equation
+\begin{equation}
+    (1- \hat G_0 (\omega, \br = 0) \hat V) \, \hat T ( \omega ) = \hat V\ .
+\end{equation}
+Note that the Born approximation $\hat T = \hat V$ corresponds to a first-order approximation of the binomial expansion of the $T$-matrix.
+Subgap states (that exist in the superconducting gap) are associated with the poles of the $T$-matrix (at zero temperature)%\,\cite{callaway2013}.
+The condition for the existence of these bound states is
+\begin{equation} \label{eqn:bound_evals}
+    \text{det} [ 1 - \hat G_0 (\omega, \br = 0) \, \hat V ] = 0 \, .
+\end{equation}
+Assuming a given unperturbed Green's function (Hamiltonian) and $\omega$, this fixes the value of $V_0$ in Eqn.\,\eqref{eqn:impurity_ham}. Note that in principle this could introduce large $V_0$ values, so accuracy could potentially be improved by including bands higher in energy now accessible to the impurity states.
+
+\section{Minimal model}
+
+We consider a triangular lattice, with hopping $t$ between nearest neighbour sites, and an onsite chemical potential $\mu$. We add a variety of nearest neighbour superconducting pairings, corresponding to the different irreps of $C_{6v}$ (which can be represented by Cooper pairs on the nearest neighbour bonds). For the moment, we will only consider even parity pairings, \ie the $A_1, A_2, E_2$ irreps.
+In reciprocal space, the Hamiltonian is given associated
+\begin{align}
+    H &= \sum_{\bk, \sigma \sigma'}
+    ( \varepsilon (\bk) - \mu ) \delta^{\phantom{\dagger}}_{\sigma \sigma'} c^{\dagger}_{\bk \sigma} c^{\phantom{\dagger}}_{\bk \sigma'}
+    + \Delta (\bk) (i \sigma_y)^{\phantom{\dagger}}_{\sigma \sigma'} c^{\dagger}_{-\bk \sigma} c^{{\dagger}}_{\bk \sigma'}
+    + \Delta^{*} (\bk) (-i \sigma_y)^{\phantom{\dagger}}_{\sigma \sigma'} c^{\phantom{\dagger}}_{-\bk \sigma} c^{\phantom{\dagger}}_{\bk \sigma'} \\
+    \varepsilon (\bk) &= 2t \sum_{\alpha = 1}^{3} \cos (\ba_\alpha \cdot \bk ) \\
+    \ba_1 &= (1,0), \hspace{1cm} \ba_2 = (-1/2, \sqrt{3}/2) \hspace{1cm} \ba_3 = -\ba_1 - \ba_2
+\end{align}
+The even parity superconducting pairings on nearest neighbours can be expressed as:
+\begin{align}
+    \Delta (\bk) &= 2 \sum_{\alpha = 1}^3 \Delta_\alpha \cos (\ba_\alpha \cdot \bk) \\
+    \Delta^{A_1} &= (1,1,1)  &&(\text{extended } s)\\
+    \Delta^{E_2, 1} &= (1,-1/2, -1/2) &&(d_{x^2-y^2}) \\
+    \Delta^{E_2, 2} &= (0,-\sqrt{3}/2,\sqrt{3}/2)  &&(d_{xy})\\
+    \Delta^{E_2, +} &= (1, e^{-2 \pi i /3}, e^{2 \pi i /3}) &&(d+id)\\
+    \Delta^{E_2, -} &= (1, e^{2 \pi i /3}, e^{-2 \pi i /3}) &&(d-id)
+\end{align}
+
+
+\end{document}

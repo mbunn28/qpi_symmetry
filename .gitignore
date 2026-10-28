@@ -1,0 +1,28 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ipynb_checkpoints/
+.venv/
+
+# Generated simulation output
+data/
+old/data*/
+old/for_harley/data/
+*.npz
+*.zip
+
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.dvi
+*.synctex.gz

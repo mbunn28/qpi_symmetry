@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath, amssymb, physics}
+\usepackage{hyperref}
+
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\GR}{G^{R}}
+\newcommand{\GA}{G^{A}}
+
+\title{LDOS modulation $\delta\rho$ from the Born $T$-matrix sum $S(\bq)$}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Conventions}
+
+The lattice has $N$ sites $\br$ and $N$ momenta $\bk$ in the Brillouin zone. Operators are related by
+\begin{equation}
+  \Psi_{\br} = \frac{1}{\sqrt{N}} \sum_{\bk} e^{i\bk\cdot\br}\, \Psi_{\bk},
+  \qquad
+  \Psi_{\bk} = \begin{pmatrix} c_{\bk\uparrow} \\ c^{\dagger}_{-\bk\downarrow} \end{pmatrix},
+\end{equation}
+so that the two-point Green's function transforms as
+\begin{equation}
+  G(\br,\br') = \frac{1}{N}\sum_{\bk,\bk'} e^{i\bk\cdot\br}\, G(\bk,\bk')\, e^{-i\bk'\cdot\br'} .
+  \label{eq:G_rr}
+\end{equation}
+The bare retarded and advanced Green's functions are
+\begin{equation}
+  \GR_0(\bk,\omega) = \left[\omega + i\gamma - H_{\mathrm{BdG}}(\bk)\right]^{-1},
+  \qquad
+  \GA_0(\bk,\omega) = \left[\GR_0(\bk,\omega)\right]^{\dagger},
+\end{equation}
+and in general $\GA(\br,\br') = [\GR(\br',\br)]^{\dagger}$, so on the diagonal $\GA(\br,\br) = [\GR(\br,\br)]^{\dagger}$.
+
+\section{Born approximation and the quantity $S(\bq)$}
+
+For an impurity $H_{\mathrm{imp}} = \sum_{\bk\bk'} \Psi^{\dagger}_{\bk} T(\bk,\bk') \Psi_{\bk'}$ with $T(\bk,\bk')^{\dagger} = T(\bk',\bk)$ (Hermitian), the first-order correction is
+\begin{equation}
+  \delta\GR(\bk,\bk') = \GR_0(\bk)\, T(\bk,\bk')\, \GR_0(\bk') .
+\end{equation}
+The code computes (\texttt{g0k}, \texttt{T}, \texttt{g0kq})
+\begin{equation}
+  S(\bq) = \sum_{\bk} \GR_0(\bk)\, T(\bk,\bk+\bq)\, \GR_0(\bk+\bq) = \sum_{\bk} \delta\GR(\bk,\bk+\bq),
+\end{equation}
+a $2\times2$ Nambu matrix. Note that both Green's functions in $S$ are \emph{retarded}.
+
+\section{Real-space diagonal}
+
+Setting $\br' = \br$ in \eqref{eq:G_rr} and writing $\bk' = \bk + \bq$:
+\begin{equation}
+  \delta\GR(\br,\br) = \frac{1}{N}\sum_{\bk,\bq} e^{i\bk\cdot\br}\, \delta\GR(\bk,\bk+\bq)\, e^{-i(\bk+\bq)\cdot\br}
+  = \frac{1}{N}\sum_{\bq} e^{-i\bq\cdot\br}\, S(\bq).
+  \label{eq:dGR}
+\end{equation}
+The phase is $e^{-i\bq\cdot\br}$: $S(\bq)$ scatters an electron from $\bk+\bq$ into $\bk$, i.e.\ it transfers momentum $-\bq$.
+
+The advanced part is the Hermitian conjugate of \eqref{eq:dGR}:
+\begin{equation}
+  \delta\GA(\br,\br) = \left[\delta\GR(\br,\br)\right]^{\dagger}
+  = \frac{1}{N}\sum_{\bq} e^{+i\bq\cdot\br}\, S(\bq)^{\dagger}
+  = \frac{1}{N}\sum_{\bq} e^{-i\bq\cdot\br}\, S(-\bq)^{\dagger}.
+  \label{eq:dGA}
+\end{equation}
+$S(-\bq)^{\dagger}$ is the \emph{advanced} counterpart of $S(\bq)$ with the same momentum structure. Using $T^{\dagger}(\bk,\bk') = T(\bk',\bk)$ and shifting $\bk \to \bk+\bq$,
+\begin{equation}
+  S(-\bq)^{\dagger} = \sum_{\bk} \GA_0(\bk-\bq)\, T(\bk-\bq,\bk)\, \GA_0(\bk)
+  = \sum_{\bk} \GA_0(\bk)\, T(\bk,\bk+\bq)\, \GA_0(\bk+\bq)
+  = \sum_{\bk} \delta\GA(\bk,\bk+\bq).
+\end{equation}
+So $S(\bq) - S(-\bq)^{\dagger}$ is exactly $\delta\GR - \delta\GA$ at the same $\bq$; no retarded/advanced swap is involved.
+
+\section{LDOS}
+
+The spin-up electron LDOS is
+\begin{equation}
+  \delta\rho(\br,\omega) = -\frac{1}{\pi}\,\Im\, \delta\GR_{00}(\br,\br,\omega)
+  = -\frac{1}{2\pi i}\left[\delta\GR(\br,\br) - \delta\GA(\br,\br)\right]_{00}.
+\end{equation}
+Substituting \eqref{eq:dGR} and \eqref{eq:dGA},
+\begin{equation}
+  \boxed{\;
+  \delta\rho(\br) = \frac{1}{N}\sum_{\bq} e^{-i\bq\cdot\br}\, \tilde\rho(\bq),
+  \qquad
+  \tilde\rho(\bq) = -\frac{1}{2\pi i}\left[S(\bq) - S(-\bq)^{\dagger}\right]_{00}
+  = \frac{i}{2\pi}\left[S(\bq) - S(-\bq)^{\dagger}\right]_{00} . \;}
+  \label{eq:rho_tilde}
+\end{equation}
+
+\paragraph{Comparison with $(S(\bq) - S(-\bq)^{\dagger})/2\pi$.}
+This is $\tilde\rho(\bq)$ without the factor $i$: $(S(\bq) - S(-\bq)^{\dagger})_{00}/2\pi = -i\,\tilde\rho(\bq)$. Since $\delta\rho(\br)$ is real, transforming it back gives $-i\,\delta\rho(\br)$, which is purely imaginary. The magnitudes are right, but real and imaginary parts are exchanged (with a sign) in both $\bq$- and $\br$-space.
+
+\section{Which sign of $\bq$?}
+
+Equation~\eqref{eq:rho_tilde} defines $\tilde\rho$ as the coefficient of $e^{-i\bq\cdot\br}$. The code (and \texttt{numpy.fft.ifft2}) uses the standard convention
+\begin{equation}
+  \delta\rho(\br) = \frac{1}{N_q^2}\sum_{\bq} e^{+i\bq\cdot\br}\, \delta\rho(\bq)
+  \quad\Longleftrightarrow\quad
+  \delta\rho(\bq) = \sum_{\br} e^{-i\bq\cdot\br}\,\delta\rho(\br),
+\end{equation}
+so that
+\begin{equation}
+  \delta\rho(\bq) = \tilde\rho(-\bq) = \frac{i}{2\pi}\left[S(-\bq) - S(\bq)^{\dagger}\right]_{00} .
+  \label{eq:rho_code}
+\end{equation}
+The two forms are the same physics written in opposite Fourier conventions. Both contain one retarded and one advanced term. Either is correct provided the matching inverse transform is used:
+\begin{itemize}
+  \item $\tilde\rho(\bq)$ with $\sum_{\bq} e^{-i\bq\cdot\br}$ (\texttt{fft2}, divided by $N_q^2$), or
+  \item $\delta\rho(\bq)$ of \eqref{eq:rho_code} with $\sum_{\bq} e^{+i\bq\cdot\br}$ (\texttt{ifft2}), as in the code.
+\end{itemize}
+Mixing them (e.g.\ $\tilde\rho$ with \texttt{ifft2}) gives $\delta\rho(-\br)$. That is a $C_2$ rotation of the image: the irrep weights are unchanged, but the $B_1$, $B_2$ and $E_1$ components change sign.
+
+Swapping $\GR \leftrightarrow \GA$ throughout would instead flip the overall sign of $\delta\rho$, since $-\frac{1}{\pi}\Im\GA = +\frac{1}{\pi}\Im\GR$. It does not change the sign of $\bq$.
+
+\section{Consequences for the symmetry analysis}
+
+Because $\delta\rho(\br)$ is real, $\delta\rho(-\bq) = \delta\rho(\bq)^{*}$. Hence $\Re\,\delta\rho(\bq)$ is even and $\Im\,\delta\rho(\bq)$ is odd under $\bq\to-\bq$. In two dimensions inversion is the rotation $C_2 \in C_{6v}$, with $\chi(C_2) = +d_\nu$ for $A_1, A_2, E_2$ and $-d_\nu$ for $B_1, B_2, E_1$. So
+\begin{equation}
+  \Re\,\delta\rho(\bq) \in A_1 \oplus A_2 \oplus E_2,
+  \qquad
+  \Im\,\delta\rho(\bq) \in B_1 \oplus B_2 \oplus E_1,
+  \qquad
+  \Im\,\delta\rho(\br) = 0 .
+\end{equation}
+
+\section{Implementation notes}
+
+\begin{itemize}
+  \item $S(-\bq)$ does not need a separate calculation. On the centred $q$-mesh, $\bq = (m_1\mathbf{b}_1 + m_2\mathbf{b}_2)/N_q$ sits at index $(m_2 + N_q/2,\, m_1 + N_q/2)$, and $-\bq$ at index $(N_q - i) \bmod N_q$ along each axis. Since $\GR_0$ is periodic in $\bk$ and $V$ is evaluated on Wigner--Seitz-folded momenta, $S(\bq + \mathbf{G}) = S(\bq)$, so the reindexed array is exact. This matches a direct recalculation of $S(-\bq)$ to $\sim 10^{-16}$ relative.
+  \item The overall factor $1/N$ in \eqref{eq:rho_tilde} is omitted in the code (it only sets the scale).
+\end{itemize}
+
+\section{Numerical check}
+
+On a $12\times12$ lattice ($N_q = N_k = 12$, $d+id$ pairing, $\omega = 1.5\,\Delta_{\mathrm{gap}}$, $\gamma = 10^{-2}$), with a generic Hermitian $V(\bk,\bk')$ that has no $C_{6v}$ symmetry:
+\begin{itemize}
+  \item $\delta\GR_{00}(\bk,\bk')$ was built in the full $(\bk,\bk')$ basis, rotated to sites using $\langle\br|\bk\rangle = e^{i\bk\cdot\br}/\sqrt{N}$, and $-\frac{1}{\pi}\Im\,\delta\GR_{00}(\br,\br)$ taken directly.
+  \item The code's path (\eqref{eq:rho_code} then \texttt{ifft2}) reproduces it with ratio $1 \pm 10^{-12}$, and its imaginary part is $\sim 10^{-16}$.
+  \item $i\,(S(\bq) - S(-\bq)^{\dagger})_{00}/2\pi$ with the $e^{-i\bq\cdot\br}$ inverse transform also reproduces it (relative error $5\times10^{-15}$).
+  \item Replacing $\GR_0 \to \GA_0$ in $S$ gives exactly $-\delta\rho(\br)$.
+\end{itemize}
+
+\end{document}

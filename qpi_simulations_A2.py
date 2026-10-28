@@ -372,28 +372,28 @@ def main(pairing):
 
         S = np.zeros((Nq,Nq,2,2), dtype=complex)
         for i, j in tqdm(np.ndindex(Nq, Nq), total=Nq*Nq, desc='QPI loop'):
-            # axis 0 of the meshes steps along b2, axis 1 along b1
+            # S(q) = sum_k G(k) T(k, k-q) G(k-q)
+            # axis 0 of the meshes steps along b2, axis 1 along b1; rolling by +q gives k-q
             m2, m1 = i - Nq//2, j - Nq//2
-            kqws = np.roll( kws, (-m2*qstep, -m1*qstep), axis=(0,1) )
+            kmqws = np.roll( kws, (m2*qstep, m1*qstep), axis=(0,1) )
             qxi, qyi = qws[i,j]
-            # k x (k+q) with both momenta folded separately; folding q instead of k+q
-            # would break V(k+q, k) = V(k, k+q)^* wherever k+q crosses the zone boundary
-            V = v_mag * 1j * ( kws[:,:,0] * kqws[:,:,1] - kws[:,:,1] * kqws[:,:,0] ) *\
+            # V(k, k') = i v k x k' with both momenta folded separately; folding q instead of k-q
+            # would break V(k-q, k) = V(k, k-q)^* wherever k-q crosses the zone boundary
+            V = v_mag * 1j * ( kws[:,:,0] * kmqws[:,:,1] - kws[:,:,1] * kmqws[:,:,0] ) *\
                     np.exp(- (qxi**2 + qyi**2) / (q0**2) )
             T = V.reshape(Nk,Nk,1,1) * np.diag([1, -1]).reshape(1,1,2,2)
 
-            g0kq = np.roll( g0k[ii,:,:,:,:], (-m2*qstep, -m1*qstep), axis=(0,1) )
+            g0kmq = np.roll( g0k[ii,:,:,:,:], (m2*qstep, m1*qstep), axis=(0,1) )
             S[i,j,:,:] = np.einsum(
-            'ijrs, ijst, ijtu -> ru', g0k[ii,:,:,:,:], T, g0kq
+            'ijrs, ijst, ijtu -> ru', g0k[ii,:,:,:,:], T, g0kmq
             )
 
-        # LDOS drho(r) = -Im dG_00(r,r)/pi. Since dG(r,r) = (1/N) sum_q exp(-iq.r) S(q),
-        # in the convention drho(r) = (1/Nq^2) sum_q exp(iq.r) drho(q) this gives
-        #   drho(q) = (i/2pi) [S(-q) - S(q)^dagger]_00
+        # FT-LDOS drho(q) = sum_r exp(-iq.r) drho(r), with drho(r) = -Im dG_00(r,r)/pi:
+        #   drho(q) = -[S(q) - S(-q)^dagger]_00 / (2 pi i)    (see notes/drho_derivation.tex)
         # S is periodic on the q-mesh (V uses folded momenta), so S(-q) is just a reindexing
         neg = (Nq - np.arange(Nq)) % Nq   # index of -q on the centred q-mesh
         S_neg = S[np.ix_(neg, neg)]
-        drho = 1j * ( S_neg[:,:,0,0] - np.conj(S[:,:,0,0]) ) / (2*np.pi)
+        drho = - ( S[:,:,0,0] - np.conj(S_neg[:,:,0,0]) ) / (2j*np.pi)
         # drho_r = -np.imag(S[:,:,0,0]+S[:,:,1,1])/np.pi
         drho_r = np.fft.fftshift( np.fft.ifft2( np.fft.ifftshift(drho) ) )
 

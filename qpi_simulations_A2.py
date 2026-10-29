@@ -281,7 +281,7 @@ def main(pairing):
     Nk = 120
     Nq = 24
 
-    sav_dir = folder + f'data/D{np.abs(np.log10(delta_mag)):.2f}_G{np.abs(np.log10(gamma)):.3f}/'
+    sav_dir = folder + f'data/A2/D{np.abs(np.log10(delta_mag)):.2f}_G{np.abs(np.log10(gamma)):.3f}/'
     if not os.path.exists(sav_dir):
         os.mkdir(sav_dir)
 
@@ -351,7 +351,7 @@ def main(pairing):
             f.write(f'No gap found for mu {mu}, gamma {gamma}, mag_delt {delta_mag}\n')
         return
 
-    omega_vals = np.array([0, 0.9*gap_size]) #np.linspace( -0.9*gap_size, 0.9*gap_size, num= 10 )
+    omega_vals = np.array([0, 0.98*gap_size]) #np.linspace( -0.9*gap_size, 0.9*gap_size, num= 10 )
 
     ## Bare Green's functions
 

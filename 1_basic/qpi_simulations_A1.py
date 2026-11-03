@@ -265,7 +265,7 @@ def symmetry_analyse(arr0, f=None):
 
 def main(pairing):
 
-    folder = '/Users/mtb31/Library/CloudStorage/OneDrive-Personal/Documents/PhD_Research/qpi_symmetry/'
+    folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     # pairing = 's'  # 'd+id', 'dx2y2', 'ext s'
 
@@ -279,7 +279,7 @@ def main(pairing):
     q0_factors = 10.0**np.linspace(-2, 2, 9)  # q0 = q0_factor * |b1|
 
     Nk = 120
-    Nq = 24
+    Nq = 120
 
     sav_dir = folder + f'data/A1/D{np.abs(np.log10(delta_mag)):.2f}_G{np.abs(np.log10(gamma)):.3f}/'
     if not os.path.exists(sav_dir):
@@ -294,9 +294,6 @@ def main(pairing):
     kmesh = setup_mesh(Nk, rlattice)
     kx, ky = kmesh[:,:,0], kmesh[:,:,1]
 
-    ## q-mesh over the BZ and its Fourier-conjugate r-mesh of lattice sites
-    # q = (m1 b1 + m2 b2)/Nq and r = n1 a1 + n2 a2, both centred, so that
-    # drho(r) = fftshift(ifft2(ifftshift(drho(q)))) = (1/Nq^2) sum_q exp(i q.r) drho(q)
     if Nk % Nq != 0:
         raise ValueError('Nk must be a multiple of Nq so k+q lies on the k-mesh')
     qstep = Nk // Nq
@@ -365,8 +362,6 @@ def main(pairing):
 
     for ii, om in enumerate( omega_vals ):
 
-        # V = v_mag exp(-|q|^2/q0^2) depends only on q, so S(q) for any q0 is the q0 -> infinity
-        # result times exp(-|q|^2/q0^2) and the k-sum only needs doing once per omega
         S_inf = np.zeros((Nq,Nq,2,2), dtype=complex)
         T = v_mag * np.diag([1, -1])
         for i, j in tqdm(np.ndindex(Nq, Nq), total=Nq*Nq, desc='QPI loop'):
@@ -384,20 +379,12 @@ def main(pairing):
 
             S = S_inf * np.exp(- q_sq / q0**2).reshape(Nq,Nq,1,1)
 
-            # FT-LDOS drho(q) = sum_r exp(-iq.r) drho(r), with drho(r) = -Im dG_00(r,r)/pi:
-            #   drho(q) = -[S(q) - S(-q)^dagger]_00 / (2 pi i)    (see notes/drho_derivation.tex)
-            # S is periodic on the q-mesh (V uses folded momenta), so S(-q) is just a reindexing
-            neg = (Nq - np.arange(Nq)) % Nq   # index of -q on the centred q-mesh
-            S_neg = S[np.ix_(neg, neg)]
-            drho = - ( S[:,:,0,0] - np.conj(S_neg[:,:,0,0]) ) / (2j*np.pi)
-            # drho_r = -np.imag(S[:,:,0,0]+S[:,:,1,1])/np.pi
+            drho = -np.imag(S[:,:,0,0]+S[:,:,1,1])/np.pi
             drho_r = np.fft.fftshift( np.fft.ifft2( np.fft.ifftshift(drho) ) )
 
-            # |drho(q)| <= max|V| sum_k |G(k)|^2 with max|V| = v_mag, so anything far below this is rounding noise
             drho_bound = v_mag * np.sum(np.abs(g0k[ii])**2)
             zero_tol = 1e-10 * drho_bound
 
-            # drho(r) is real by construction (drho(-q) = drho(q)^*), so Im drho(r) is only a sanity check
             datasets = []
             for label, name, img, mesh, U in [
                 (r'Re[d$\rho (\boldsymbol{q})$]', 'Re drho(q)', np.real(drho), qmesh, Uq),
@@ -571,6 +558,6 @@ def main(pairing):
 
 
 if __name__=='__main__':
-    pairings = ['s', 'ext s', 'd+id']
+    pairings = ['s', 'ext s', 'd+id', 'dx2y2']
     for pairing in pairings:
         main(pairing)

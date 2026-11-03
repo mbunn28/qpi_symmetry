@@ -265,7 +265,7 @@ def symmetry_analyse(arr0, f=None):
 
 def main(pairing):
 
-    folder = '/Users/mtb31/Library/CloudStorage/OneDrive-Personal/Documents/PhD_Research/qpi_symmetry/'
+    folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     # pairing = 's'  # 'd+id', 'dx2y2', 'ext s'
 

@@ -25,3 +25,6 @@ old/
 *.fdb_latexmk
 *.dvi
 *.synctex.gz
+*.bbl
+*.blg
+*Notes.bib

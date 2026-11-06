@@ -28,6 +28,7 @@ From this folder:
 ## rashba_born_nonchiral
 
 - Fig. rashba_nonchiral, rows (a)-(c) (quoted in the case table): s, ext s, dx2y2, Born at omega_2 (0.98 gap; 0.15 for nodal dx2y2, see `../2026-11-06_dx2y2_nodes`), q0 = |b1|, drho_0 only; their spin channels are below `zero_tol`.
+- Rows (a)-(c) separated by horizontal lines, bottom colorbar, as `../2026-11-06_nosoc_figs` nosoc_A1imp_all.
 - Same panel conventions; the q = 0 peak is 3-6x the rest for ext s and dx2y2, so the centre saturates.
 
 ## frg_compare

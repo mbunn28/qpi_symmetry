@@ -113,7 +113,7 @@ if __name__ == '__main__':
                 f.write('        \\cline{2-9}\n')
             n_sys = 0 if system != last[0] else n_sys + 1
             sys_cell = system if n_sys == 0 else (SYSTEM_SUB.get(system, '') if n_sys == 1 else '')
-            f.write(f'        {sys_cell} & {imp if (system, imp) != last else ""} & {pairing} & {om2} & '
+            f.write(f'        {sys_cell} & {f'${imp[0]}_{imp[1]}$' if (system, imp) != last else ""} & {pairing} & {om2} & '
                     + ' & '.join(cells) + ' \\\\\n')
             last = (system, imp)
     # full T vs Born, for the caption and text (not in the table)

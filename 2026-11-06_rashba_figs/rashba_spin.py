@@ -110,7 +110,11 @@ def frg_nonchiral(P, path):
 
 
 def nonchiral(P, path):
-    fig, ax = plt.subplots(3, 2, figsize=(3.4, 4.6), layout='constrained')
+    """Rows (a)-(c) separated by horizontal lines, as nosoc_A1imp_all; bottom colorbar."""
+    fig = plt.figure(figsize=(3.4, 5.2), layout='constrained')
+    top, bottom = fig.subfigures(2, 1, height_ratios=[1, 0.15])
+    top.get_layout_engine().set(h_pad=0.01, hspace=0)
+    ax = top.subplots(3, 2)
     for i, (folder, tex) in enumerate(NONCHIRAL):
         d = omega2(folder)
         P.pair(ax[i, 0], ax[i, 1], d, 0)
@@ -118,7 +122,14 @@ def nonchiral(P, path):
         ax[i, 0].text(-0.42, 1.0, f'({"abc"[i]})', transform=ax[i, 0].transAxes, ha='right', va='top', fontsize=12)  # quoted in the case table
     ax[0, 0].set_title(r'$\delta\rho_0(\bvec{q})$', fontsize=12)
     ax[0, 1].set_title(r'$\delta\rho_0(\bvec{r})$', fontsize=12)
-    colorbar(fig, ax)
+    bottom.colorbar(ScalarMappable(NORM, CMAP), cax=bottom.add_axes([0.25, 0.7, 0.5, 0.12]),
+                    orientation='horizontal', ticks=[-1, 0, 1], label=r'value / $\max|\cdot|$')
+    fig.canvas.draw()  # fix the layout, then place the dividers between rows
+    inv = top.transSubfigure.inverted()
+    for i in range(2):
+        y = (inv.transform(ax[i, 0].get_tightbbox().p0)[1] + inv.transform(ax[i + 1, 0].get_tightbbox().p1)[1]) / 2
+        top.add_artist(Line2D([0.01, 0.99], [y, y], transform=top.transSubfigure, color='0.5', lw=0.8))
+    fig.set_layout_engine('none')  # keep the measured layout on save
     fig.savefig(path, dpi=300)
     plt.close(fig)
 

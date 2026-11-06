@@ -208,7 +208,7 @@ Table~\ref{tab:cases} summarises which spin channels are finite in each case, an
     \caption{Irreps of the spin-resolved QPI $\delta\rho_\mu(\bq)$ for each system, impurity and pairing. $0$ means the channel vanishes.
     Each pairing is labelled by its own $C_{6v}$ irrep, which for FRG includes spin-symmetric pairings allowed under Rashba SOC.
     Each entry combines $\omega = 0$ and $\omega_2$ (just below the gap edge, or $0.15$ for the nodal $d_{x^2-y^2}$ state).
-    All $A_1$-irrep impurities hold both in the Born approximation and with the full $T$-matrix, with one exception, where $\dagger$ means it is also identically zero in the Born approximation at $\omega=0$. The $A_2$ impurity case was only calculated in the Born approximation.
+    All $A_1$-irrep impurities hold both in the Born approximation and with the full $T$-matrix. The $\dagger$ notes where the QPI is instead zero in the Born approximation at $\omega=0$. The $A_2$ impurity case was only calculated in the Born approximation.
     ``Im'' marks a channel that is purely imaginary in $\bq$-space; all others are real.
     Irreps with weight below $10^{-3}$ are omitted.
     The last column gives the figures in which that case's QPI is plotted.}
@@ -387,7 +387,7 @@ At $V_0 = 0.1$, the full $\hat T$ leaves every entry of Table~\ref{tab:cases} un
     \item $s$, extended $s$, $d_{x^2-y^2}$: the spin channels still vanish for every $\hat T$, including at resonance.
     $\delta\rho_0$ keeps the irreps it has in the Born approximation.
     For $d_{x^2-y^2}$ this is $A_1$, with an $E_2$ weight of $17\%$ at $\omega = 0$ and $59\%$ at $\omega = 0.15$ for $V_0 = 0.1$.
-    The extended-$s$ gap-edge resonances are weak, with $\min|\mathrm{eig}(1 - \hat V \hat G_{\text{loc}})| = 0.19$ and $0.57$.
+    The extended-$s$ gap-edge resonances are weak, with $\max|\hat T| = 9.3$ and $5.8$ (Table~\ref{tab:resonant}).
     The $d_{x^2-y^2}$ state has no gap, so it has no resonances.
     \item $d+id$ at $\omega = 0$: in the Born approximation, only $\delta\rho_0$ is finite.
     With the full $\hat T$, the spin pattern of the gap edge appears here too: $\delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$.
@@ -415,14 +415,15 @@ For the ansatz $d+id$ state, it also extends to $\omega = 0$.
 
 \begin{table*}[tp]
     \caption{Full $T$-matrix at the resonant impurity strengths $V_0 = 1/\lambda$, scalar impurity.
-    $\min|\mathrm{eig}|$ is the smallest eigenvalue modulus of $1 - \hat V \hat G_{\text{loc}}(\omega)$ with $\Gamma = 10^{-3}$, which measures how sharp the resonance is.
-    Ratios are of the $\bq$-space maxima.
-    Where they are finite, $\delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$; $0$ means numerically zero.
+    $\max|\hat T|$, at $\Gamma = 10^{-3}$, measures how sharp the resonance is.
+    Ratios are of the $\bq$-space maxima, including $\bq = 0$; $0$ means numerically zero.
+    In every row $\delta\rho_0, \delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$, where finite.
+    Only states with SOC were searched.
     $s$ pairing and the $U = 0$ FRG state have no resonances; the nodal $d_{x^2-y^2}$ state has no gap, so resonances are not considered.}
     \label{tab:resonant}
     \begin{ruledtabular}
-    \begin{tabular}{llrrrlrr}
-        State & $\omega$ & $V_0$ & $\max|\hat T|$ & $\min|\mathrm{eig}|$ & $\delta\rho_0$ irreps & $\delta\rho_z/\delta\rho_0$ & $\delta\rho_{x,y}/\delta\rho_0$ \\
+    \begin{tabular}{llrrrr}
+        State & $\omega$ & $V_0$ & $\max|\hat T|$ & $\delta\rho_z/\delta\rho_0$ & $\delta\rho_{x,y}/\delta\rho_0$ \\
         \hline
         \input{tables/fullT_resonant}  % from 2026-11-05_fullT/resonant_table.py via note_assets.sh
     \end{tabular}

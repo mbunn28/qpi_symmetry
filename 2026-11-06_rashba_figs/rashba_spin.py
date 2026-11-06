@@ -63,10 +63,13 @@ def colorbar(fig, ax):
 
 
 def compare(P, cases, path, figsize, channels=range(4), cbar_h=0.12):
-    """Column pair (q, r) per case, one row per channel (non-zero ones only); vertical dividers between cases."""
+    """Column pair (q, r) per case, one row per channel (non-zero ones only); vertical dividers between cases.
+    A single channel goes in the column titles instead of a row label, as rashba_born_nonchiral."""
+    single = len(channels) == 1
+    sym = CH[channels[0]] if single else 'i'
     fig = plt.figure(figsize=figsize, layout='constrained')
     top, bottom = fig.subfigures(2, 1, height_ratios=[1, cbar_h])
-    wr = [1.1] + [1]*(len(cases) - 1)
+    wr = [1 if single else 1.1] + [1]*(len(cases) - 1)
     subs = top.subfigures(1, len(cases), wspace=0.03, width_ratios=wr)
     for k, (sf, (title, d)) in enumerate(zip(subs, cases)):
         sf.suptitle(title, fontsize=11)
@@ -74,10 +77,10 @@ def compare(P, cases, path, figsize, channels=range(4), cbar_h=0.12):
         ax = sf.subplots(len(channels), 2, squeeze=False)
         for i, m in enumerate(channels):
             P.pair(ax[i, 0], ax[i, 1], d, m)
-            if k == 0:
+            if k == 0 and not single:
                 ax[i, 0].set_ylabel(f'${CH[m]}$', rotation=0, labelpad=10, va='center', fontsize=15)
-        ax[0, 0].set_title(r'$\delta\rho_i(\bvec{q})$', fontsize=12)
-        ax[0, 1].set_title(r'$\delta\rho_i(\bvec{r})$', fontsize=12)
+        ax[0, 0].set_title(rf'$\delta\rho_{sym}(\bvec{{q}})$', fontsize=12)
+        ax[0, 1].set_title(rf'$\delta\rho_{sym}(\bvec{{r}})$', fontsize=12)
     for x in np.cumsum(wr)[:-1] / sum(wr):  # dividers between the cases
         top.add_artist(Line2D([x, x], [0.01, 0.99], transform=top.transSubfigure, color='0.5', lw=0.8))
     bottom.colorbar(ScalarMappable(NORM, CMAP), cax=bottom.add_axes([0.35, 0.7, 0.3, 0.12]),

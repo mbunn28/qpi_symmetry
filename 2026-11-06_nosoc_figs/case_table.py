@@ -24,8 +24,8 @@ SYSTEM_SUB = {'Rashba--Hubbard': '(FRG)'}  # second line of the System label
 # breaking_TRS.tex figures plotting the QPI of each (system, impurity, pairing key)
 FIGS = {**{('no SOC', 'A1', p): ['nosoc_A1'] for p in PAIR_TEX},
         ('no SOC', 'A2', 'dpid'): ['nosoc_A2'],
-        ('Rashba', 'A1', 'dpid'): ['rashba_spin', 'fullT_dpid', 'fullT_dpid_res'],
-        **{('Rashba', 'A1', p): ['rashba_spin'] for p in ('s', 'ext_s', 'dx2y2')},
+        ('Rashba', 'A1', 'dpid'): ['dpid_compare'],
+        **{('Rashba', 'A1', p): ['rashba_nonchiral'] for p in ('s', 'ext_s', 'dx2y2')},
         ('Rashba--Hubbard', 'A1', 'frg_nu0.5_U8_a0.4_nk24_nkf31'): ['frg_spin', 'fullT_frg']}
 
 

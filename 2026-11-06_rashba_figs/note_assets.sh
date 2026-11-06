@@ -5,4 +5,4 @@ NOTE=../notes/2026-11-03_breaking_TRS
 mkdir -p $NOTE/figs
 python combined_bands.py
 python rashba_spin.py
-cp figs/bands_combined.pdf figs/rashba_spin_all.pdf $NOTE/figs/
+cp figs/bands_combined.pdf figs/dpid_compare.pdf figs/rashba_born_nonchiral.pdf $NOTE/figs/

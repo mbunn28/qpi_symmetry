@@ -1,0 +1,7 @@
+V0 = 1.3279, omega = 0.2095, t0 = -1.918-19.86j, tz = 2.759+19.84j, max|T - t0 - tz tau_z| = 5.7e-14
+max|p0 + pz - stored drho| / max = 6.1e-16
+channel  max|tau0 part|  max|tauz part|  overlap(tau0, Born)  overlap(tauz, Born)
+      0        1.92e+07        8.51e+05                0.200                0.913
+      x        3.03e+05        3.07e+05                0.948                0.950
+      y         3.5e+05        3.55e+05                0.948                0.950
+      z        1.18e+05        1.19e+05                0.935                0.936

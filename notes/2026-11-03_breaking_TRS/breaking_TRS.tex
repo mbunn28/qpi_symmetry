@@ -279,11 +279,11 @@ The impurity is scalar ($A_1$).
 
 The results for the four states are as follows.
 \begin{itemize}
-    \item $s$, extended $s$, $d_{x^2-y^2}$: only $\delta\rho_0$ is finite (Fig.~\ref{fig:rashba_spin}).
+    \item $s$, extended $s$, $d_{x^2-y^2}$: only $\delta\rho_0$ is finite (Fig.~\ref{fig:rashba_nonchiral}).
     All spin channels vanish (below $10^{-11}$) at both frequencies.
     $\delta\rho_0$ is $A_1$, with an additional $E_2$ part for $d_{x^2-y^2}$ (weight $15\%$ at $\omega = 0$ and $57\%$ at $\omega = 0.15$; the state is nodal, with four nodes on each helical Fermi surface).
     \item $d+id$ at $\omega = 0$: also only $\delta\rho_0 \in A_1$.
-    \item $d+id$ at $\omega = 0.2095$ (gap $0.2137$): all four channels are finite (Fig.~\ref{fig:rashba_spin}).
+    \item $d+id$ at $\omega = 0.2095$ (gap $0.2137$): all four channels are finite (Fig.~\ref{fig:dpid_compare}, left).
     $\delta\rho_0$ and $\delta\rho_z$ are real and purely $A_1$.
     $\delta\rho_x(\bq)$ and $\delta\rho_y(\bq)$ are purely imaginary and purely $E_1$.
     They form the vector pattern $\delta\rho_{x,y}(\br) \propto \hat{\bm x}, \hat{\bm y}$, which winds about the impurity.
@@ -308,14 +308,26 @@ In this model it nonetheless appears only in the chiral state.
 \end{figure}
 
 \begin{figure*}[tp]
-    \includegraphics[width=\textwidth]{figs/rashba_spin_all.pdf}
-    \caption{Spin-resolved QPI for the Rashba model, scalar impurity, Born approximation, $q_0 = |\bm b_1|$, each state at its $\omega_2$; only non-zero panels are shown.
-    Left: $d+id$, rows $\delta\rho_0$, $\delta\rho_x$, $\delta\rho_y$, $\delta\rho_z$; $\delta\rho_z \in A_1$ is finite only in the chiral state.
-    Right: $s$, extended $s$ and $d_{x^2-y^2}$, whose spin channels all vanish, so only $\delta\rho_0$ is shown.
-    The irrep weights of each $\bq$-map are given below it.
-    Each panel is normalised to its own maximum, given in the corner; for the $\bq$-maps this is the maximum over $\bq \neq 0$, so the $\bq = 0$ point saturates.}
-    \label{fig:rashba_spin}
+    \includegraphics[width=\textwidth]{figs/dpid_compare.pdf}
+    \caption{Spin-resolved QPI for the Rashba model with $d+id$ pairing and a scalar impurity, at $\omega_2 = 0.2095$.
+    Left: Born approximation, $q_0 = |\bm b_1|$.
+    Centre: full $T$-matrix at the same $V_0$.
+    Right: full $T$-matrix at the resonance $V_0 = 1.33$ ($\max|\hat T| = 40$).
+    Here $\delta\rho_0(\bq)$ is dominated by a broad peak at $\bq = 0$ from the impurity bound state, which hides the scattering pattern of the other two columns; the spin channels keep that pattern.
+    The full-$T$ panels have no $q$ cutoff.
+    Rows are $i = 0, x, y, z$; the $\bq$-maps show $\operatorname{Im}\delta\rho_i$ for $x, y$ and $\operatorname{Re}\delta\rho_i$ for $0, z$, and the other part vanishes.
+    Each panel is normalised to its own maximum, given below it; for the $\bq$-maps this is the maximum over $\bq \neq 0$, so the $\bq = 0$ point saturates.
+    The irreps are given in Table~\ref{tab:cases}.}
+    \label{fig:dpid_compare}
 \end{figure*}
+
+\begin{figure}[tp]
+    \includegraphics[width=\columnwidth]{figs/rashba_born_nonchiral.pdf}
+    \caption{$\operatorname{Re}\delta\rho_0$ for the Rashba model with $s$, extended $s$ and $d_{x^2-y^2}$ pairing, scalar impurity, Born approximation, $q_0 = |\bm b_1|$, each at its $\omega_2$.
+    All spin channels vanish.
+    Normalisation as in Fig.~\ref{fig:dpid_compare}.}
+    \label{fig:rashba_nonchiral}
+\end{figure}
 
 \subsection{Rashba-Hubbard model with FRG}
 
@@ -367,14 +379,14 @@ At $V_0 = 0.1$, the full $\hat T$ leaves every entry of Table~\ref{tab:cases} un
     The extended-$s$ gap-edge resonances are weak, with $\min|\mathrm{eig}(1 - \hat V \hat G_{\text{loc}})| = 0.19$ and $0.57$.
     The $d_{x^2-y^2}$ state has no gap, so it has no resonances.
     \item $d+id$ at $\omega = 0$: in the Born approximation, only $\delta\rho_0$ is finite.
-    With the full $\hat T$, the spin pattern of the gap edge appears here too (Fig.~\ref{fig:fullT_dpid}): $\delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$.
+    With the full $\hat T$, the spin pattern of the gap edge appears here too: $\delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$.
     It is weak at $V_0 = 0.1$, with max $|\delta\rho_z(\bq)| = 2.3\times10^{-3}$ and $|\delta\rho_{x,y}| = 4.1\times10^{-3}$, against $3.7$ for $\delta\rho_0$.
-    It is therefore a multiple-scattering effect, absent at first order in $V_0$.
-    At the zero-energy resonance, $V_0 = 6.28$ (Fig.~\ref{fig:fullT_dpid_res}), it grows to $\delta\rho_z/\delta\rho_0 \approx 0.4\%$.
+    At the zero-energy resonance, $V_0 = 6.28$, it grows to $\delta\rho_z/\delta\rho_0 \approx 0.4\%$.
     There, $\delta\rho_0$ is dominated by the localised bound state and is almost featureless in $\bq$, while the spin channels keep their $V_0 = 0.1$ patterns.
-    \item $d+id$ at $\omega = 0.2095$: the irreps are unchanged.
+    \item $d+id$ at $\omega = 0.2095$ (Fig.~\ref{fig:dpid_compare}): the irreps are unchanged.
     At $V_0 = 0.1$, $\delta\rho_z$ grows to $27\%$ of $\delta\rho_0$ ($254$ vs.\ $951$), from $13\%$ in the Born approximation.
     At the two resonances, $V_0 = -2.28$ and $1.33$, $\delta\rho_0$ dominates and the ratio drops to $10^{-4}$ and $1\%$ respectively.
+    At $V_0 = 1.33$, $\hat T = t_0 + t_z \tau_z$ with $|t_0| \approx |t_z| \approx 20$; the $\tau_0$ part gives the bound-state peak in $\delta\rho_0$, about $20$ times the $\tau_z$ part, while the $\tau_z$ part alone reproduces the Born pattern of $\delta\rho_0$ (overlap $0.91$).
 \end{itemize}
 
 \paragraph{FRG pairings.}
@@ -391,25 +403,10 @@ The chirality signature $\delta\rho_z \in A_1$ survives at all orders.
 For the ansatz $d+id$ state, it also extends to $\omega = 0$.
 
 \begin{figure}[tp]
-    \includegraphics[width=\columnwidth]{figs/fullT_rashba_dpid_om0.pdf}
-    \caption{Full $T$-matrix, Rashba model with $d+id$ pairing, scalar impurity, $V_0 = 0.1$, $\omega = 0$.
-    Rows: $\delta\rho_0$, $\delta\rho_x$, $\delta\rho_y$, $\delta\rho_z$.
-    In the Born approximation only the first row is finite at this frequency.}
-    \label{fig:fullT_dpid}
-\end{figure}
-
-\begin{figure}[tp]
     \includegraphics[width=\columnwidth]{figs/fullT_frg_chiral.pdf}
     \caption{Full $T$-matrix for the chiral FRG state of Fig.~\ref{fig:bands}, $V_0 = 0.1$, $\omega = 0.0846$.
     The irreps are those of Fig.~\ref{fig:frg_spin}, but $\delta\rho_z$ is now $15\%$ of $\delta\rho_0$.}
     \label{fig:fullT_frg}
-\end{figure}
-
-\begin{figure}[tp]
-    \includegraphics[width=\columnwidth]{figs/fullT_rashba_dpid_om0_res.pdf}
-    \caption{As Fig.~\ref{fig:fullT_dpid}, at the zero-energy resonance $V_0 = 6.28$ ($\max|\hat T| = 783$).
-    $\delta\rho_0$ becomes a bound-state peak, while $\delta\rho_{x,y} \in E_1$ and $\delta\rho_z \in A_1$ keep the patterns they have at $V_0 = 0.1$.}
-    \label{fig:fullT_dpid_res}
 \end{figure}
 
 \begin{table*}[tp]

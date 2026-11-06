@@ -5,14 +5,16 @@ import sys
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.cm import ScalarMappable
+from matplotlib.lines import Line2D
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..')
 sys.path.insert(0, os.path.join(ROOT, '2026-11-05_nosoc'))
 from qpi_nosoc import a2_S  # noqa: E402  (also puts 2_new on sys.path)
-from qpi_simulation import (PAULI, setup_mesh, neg_index, fold_to_ws, build_c6v_perms, calculate_bloch,  # noqa: E402
+from qpi_simulation import (PAULI, setup_mesh, neg_index, fold_to_ws, calculate_bloch,  # noqa: E402
                             calculate_sc_order_params, calculate_bdg, calculate_greens_function,
-                            irrep_decomposition, draw_panel, corner_note, add_colorbar, IRREP_NAMES)
+                            draw_panel, CMAP, NORM)
 
 NOSOC = os.path.join(ROOT, '2026-11-05_nosoc', 'data', 'delta0.1_gamma0.001')
 FULLT = os.path.join(ROOT, '2026-11-05_fullT', 'data', 'delta0.1_gamma0.001_alpha0', 'dx2y2', 'born')
@@ -58,70 +60,85 @@ def files(imp, folder):
     return [fs[0], nodal]
 
 
-def weights_label(img, mesh, U, min_weight=1e-3):
-    _, w, _ = irrep_decomposition(img, mesh, U)
-    return ', '.join(rf'{IRREP_NAMES[n][0]}$_{IRREP_NAMES[n][1]}$ {100*w[n]:.0f}\%' for n in np.argsort(-w) if w[n] > min_weight)
+def panel(a, kind, img, geom, zero_tol, r_window):
+    """Fig. 4 style: normalised map, max below, no ticks or box; '~0' if below zero_tol."""
+    vmax = np.amax(np.abs(img))
+    zero = vmax < zero_tol
+    draw_panel(a, kind, None if zero else img/vmax, *geom[kind], r_window)
+    if not zero:
+        a.set_xlabel(f'{vmax:.2g}', labelpad=1, fontsize=8)
+    a.set_xticks([])
+    a.set_yticks([])
+    a.spines[:].set_visible(False)
+
+
+def col_titles(ax):
+    ax[0, 0].set_title(r'$\delta\rho(\bvec{q})$', fontsize=12)
+    ax[0, 1].set_title(r'$\delta\rho(\bvec{r})$', fontsize=12)
+
+
+def row_label(a, i):
+    """(a), (b), ... at the top left of row i, quoted in the case table."""
+    a.text(-0.42, 1.0, f'({"abcdefgh"[i]})', transform=a.transAxes, ha='right', va='top', fontsize=12)
+
+
+def bottom_colorbar(sf):
+    sf.colorbar(ScalarMappable(NORM, CMAP), cax=sf.add_axes([0.35, 0.7, 0.3, 0.12]),
+                orientation='horizontal', ticks=[-1, 0, 1], label=r'value / $\max|\cdot|$')
 
 
 def combined(imp, path, Nq=120, r_window=10):
-    qmesh = setup_mesh(Nq, rlattice)
-    rmesh = setup_mesh(Nq, lattice) * Nq
-    Uq = build_c6v_perms(qmesh)
-    geom = dict(q=(qmesh, rlattice), r=(rmesh, lattice))
-    fig, ax = plt.subplots(len(PAIRINGS), 4, figsize=(6.4, 6.0), layout='constrained')
+    """Column pairs omega = 0 and omega_2; rows = pairings, separated by horizontal lines."""
+    geom = dict(q=(setup_mesh(Nq, rlattice), rlattice), r=(setup_mesh(Nq, lattice) * Nq, lattice))
+    fig = plt.figure(figsize=(5.6, 6.4), layout='constrained')
+    top, bottom = fig.subfigures(2, 1, height_ratios=[1, 0.09])
+    subs = top.subfigures(1, 2, wspace=0.03, width_ratios=[1.2, 1])
+    axs = []
+    for j, (sf, title) in enumerate(zip(subs, [r'$\omega = 0$', r'$\omega = \omega_2$'])):
+        sf.suptitle(title, fontsize=12)
+        sf.get_layout_engine().set(h_pad=0.01, hspace=0)
+        axs.append(sf.subplots(len(PAIRINGS), 2))
+        col_titles(axs[j])
     for i, (folder, _, tex) in enumerate(PAIRINGS):
         for j, f in enumerate(files(imp, folder)):
             d = np.load(f)
             # only Re drho_0 is finite without SOC; Im drho_0(q) and spin channels are round-off
             for c, (kind, img) in enumerate([('q', np.real(d['drho'][0])), ('r', np.real(d['drho_r'][0]))]):
-                a = ax[i, 2*j + c]
-                vmax = np.amax(np.abs(img))
-                zero = vmax < d['zero_tol']
-                draw_panel(a, kind, None if zero else img/vmax, *geom[kind], r_window)
-                if not zero:
-                    corner_note(a, f'{vmax:.2g}')
-                    if kind == 'q':
-                        a.set_xlabel(weights_label(img, qmesh, Uq), labelpad=1)
-                a.set_xticks([])
-                a.set_yticks([])
-                if i == 0:
-                    a.set_title((r'$\mathrm{Re}\,\delta\rho(\bvec{q})$' if kind == 'q' else r'$\delta\rho(\bvec{r})$')
-                                + (r', $\omega = 0$' if j == 0 else r', $\omega_2$'))
-            if j == 1:
-                om2 = float(d['omega'])
-        ax[i, 0].set_ylabel(tex + '\n' + rf'$\omega_2 = {om2:.4f}$')
-    add_colorbar(fig, ax)
+                panel(axs[j][i, c], kind, img, geom, d['zero_tol'], r_window)
+        axs[0][i, 0].set_ylabel(tex + '\n' + rf'$\omega_2 = {float(d["omega"]):.4f}$', fontsize=11)
+        row_label(axs[0][i, 0], i)
+    bottom_colorbar(bottom)
+    fig.canvas.draw()  # fix the layout, then place the dividers between rows
+    inv = top.transSubfigure.inverted()
+    for i in range(len(PAIRINGS) - 1):
+        lo = inv.transform(axs[0][i, 0].get_tightbbox().p0)[1]
+        hi = inv.transform(axs[0][i + 1, 0].get_tightbbox().p1)[1]
+        y = (lo + hi) / 2
+        top.add_artist(Line2D([0.01, 0.99], [y, y], transform=top.transSubfigure, color='0.5', lw=0.8))
+    fig.set_layout_engine('none')  # keep the measured layout on save
     fig.savefig(path, dpi=300)
     plt.close(fig)
 
 
 def nonzero_only(imp, path, Nq=120, r_window=10):  # column width (3.4 in)
     """One row per (pairing, omega) whose Re drho_0 is finite: (Re drho(q), drho(r))."""
-    qmesh = setup_mesh(Nq, rlattice)
-    rmesh = setup_mesh(Nq, lattice) * Nq
-    Uq = build_c6v_perms(qmesh)
-    geom = dict(q=(qmesh, rlattice), r=(rmesh, lattice))
+    geom = dict(q=(setup_mesh(Nq, rlattice), rlattice), r=(setup_mesh(Nq, lattice) * Nq, lattice))
     rows = []
     for folder, _, tex in PAIRINGS:
         for f in files(imp, folder):
             d = np.load(f)
             if np.amax(np.abs(np.real(d['drho'][0]))) >= d['zero_tol']:
                 rows.append((tex, d))
-    fig, ax = plt.subplots(len(rows), 2, figsize=(3.4, 1.75*len(rows)), layout='constrained', squeeze=False)
+    fig = plt.figure(figsize=(3.4, 1.55*len(rows) + 0.9), layout='constrained')
+    top, bottom = fig.subfigures(2, 1, height_ratios=[1.55*len(rows) + 0.35, 0.55])
+    top.get_layout_engine().set(h_pad=0.01, hspace=0)
+    ax = top.subplots(len(rows), 2, squeeze=False)
     for i, (tex, d) in enumerate(rows):
         for c, (kind, img) in enumerate([('q', np.real(d['drho'][0])), ('r', np.real(d['drho_r'][0]))]):
-            a = ax[i, c]
-            vmax = np.amax(np.abs(img))
-            draw_panel(a, kind, img/vmax, *geom[kind], r_window)
-            corner_note(a, f'{vmax:.2g}')
-            if kind == 'q':
-                a.set_xlabel(weights_label(img, qmesh, Uq), labelpad=1)
-            a.set_xticks([])
-            a.set_yticks([])
-            if i == 0:
-                a.set_title(r'$\mathrm{Re}\,\delta\rho(\bvec{q})$' if kind == 'q' else r'$\delta\rho(\bvec{r})$')
-        ax[i, 0].set_ylabel(tex + '\n' + rf'$\omega = {float(d["omega"]):.4f}$')
-    add_colorbar(fig, ax)
+            panel(ax[i, c], kind, img, geom, d['zero_tol'], r_window)
+        ax[i, 0].set_ylabel(tex + '\n' + rf'$\omega = {float(d["omega"]):.4f}$', fontsize=11)
+    col_titles(ax)
+    bottom_colorbar(bottom)
     fig.savefig(path, dpi=300)
     plt.close(fig)
 

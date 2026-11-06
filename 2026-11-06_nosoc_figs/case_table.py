@@ -2,6 +2,7 @@
 # An entry is the union over omega in {0, omega_2}; marked if it is finite at only one of them.
 # The table is Born only; full-T entries that differ from Born go to case_table_fullT.txt.
 import os
+import re
 import sys
 import glob
 import numpy as np
@@ -21,12 +22,13 @@ PAIR_TEX = {'s': '$A_1$: $s$', 'ext_s': r'$A_1$: ext.\ $s$', 'dpid': '$E_2$: $d+
 FRG_TEX = [('frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01', r'$A_1$: $U{=}0, V{=}0.9$'),
            ('frg_nu0.5_U8_a0.4_nk24_nkf31', r'$E_2$: $U{=}8, V{=}0$, $\chi{=}+1$')]
 SYSTEM_SUB = {'Rashba--Hubbard': '(FRG)'}  # second line of the System label
-# breaking_TRS.tex figures plotting the QPI of each (system, impurity, pairing key)
-FIGS = {**{('no SOC', 'A1', p): ['nosoc_A1'] for p in PAIR_TEX},
+# breaking_TRS.tex figures plotting the QPI of each (system, impurity, pairing key); '(x)' = row label in that figure
+FIGS = {**{('no SOC', 'A1', p): [f'nosoc_A1({r})'] for p, r in zip(PAIR_TEX, 'abcd')},
         ('no SOC', 'A2', 'dpid'): ['nosoc_A2'],
         ('Rashba', 'A1', 'dpid'): ['dpid_compare'],
-        **{('Rashba', 'A1', p): ['rashba_nonchiral'] for p in ('s', 'ext_s', 'dx2y2')},
-        ('Rashba--Hubbard', 'A1', 'frg_nu0.5_U8_a0.4_nk24_nkf31'): ['frg_spin', 'fullT_frg']}
+        **{('Rashba', 'A1', p): [f'rashba_nonchiral({r})'] for p, r in zip(('s', 'ext_s', 'dx2y2'), 'abc')},
+        ('Rashba--Hubbard', 'A1', 'frg_nu0.5_U8_a0.4_nk24_nkf31'): ['frg_spin'],
+        ('Rashba--Hubbard', 'A1', 'frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01'): ['frg_nonchiral']}
 
 
 def sorted_om(fs):
@@ -97,7 +99,7 @@ if __name__ == '__main__':
         (r0, om0), (r2, om2) = irreps(fs[0], mesh, U), irreps(fs[1], mesh, U)
         assert om0 == 0
         cells = [entry(a, b) for a, b in zip(r0, r2)]
-        figs = ', '.join(rf'\ref{{fig:{x}}}' for x in FIGS.get((system, imp, key), [])) or '--'
+        figs = ', '.join(re.sub(r'^([^(]+)', r'\\ref{fig:\1}', x) for x in FIGS.get((system, imp, key), [])) or '--'
         rows.append((system, pairing, imp, t, f'{om2:.4f}', cells + [figs]))
         print(f'{system:16s} {pairing:34s} {imp} {t:4s} om2={om2:.4f}  ' + ' | '.join(cells))
     born = [r for r in rows if r[3] == 'Born']

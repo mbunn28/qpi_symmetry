@@ -194,7 +194,7 @@ cyclic or dihedral.
 All calculations use the nearest-neighbour triangular lattice with a single impurity in the Born approximation (except in Sec.~\ref{sec:fullT}), broadening $\Gamma = 10^{-3}$ and impurity strength $V_0 = 0.1$.
 The gap scale is $|\Delta| = 0.1$ (in units of the hopping), on a $240 \times 240$ $\bk$-mesh with a $120 \times 120$ $\bq$-mesh.
 The basis is the spinful Nambu basis $(c_{\bk\uparrow}, c_{\bk\downarrow}, c^\dagger_{-\bk\uparrow}, c^\dagger_{-\bk\downarrow})$ throughout, and we resolve the LDOS by spin, $\delta\rho_\mu$ with $\mu \in \{0, x, y, z\}$.
-Each panel is normalised to its own maximum, which is given in its corner.
+Each panel is normalised to its own maximum, which is given below it.
 Single-state figures show only the non-zero channels, and in the combined no-SOC figures a vanishing panel is marked $\approx 0$.
 The impurity potential is cut off in momentum by a Gaussian $e^{-q^2/q_0^2}$, with $q_0$ quoted in units of $|\bm b_1|$.
 Every $\delta\rho(\bq)$ and $\delta\rho(\br)$ is projected onto the irreps of $C_{6v}$,
@@ -231,7 +231,7 @@ All four states are shown in Fig.~\ref{fig:nosoc_A1}.
 For $s$, extended $s$ and $d+id$, $\delta\rho$ is purely $A_1$ at every frequency (weight $1$ to numerical precision).
 So the chiral state is indistinguishable by symmetry from a fully symmetric gap.
 The nematic $d_{x^2-y^2}$ state, by contrast, leaves a clear $E_2$ component.
-Its weight is $41\%$ at $\omega = 0$ and $65\%$ at $\omega = 0.15$ (bottom row of Fig.~\ref{fig:nosoc_A1}).
+Its weight is $41\%$ at $\omega = 0$ and $65\%$ at $\omega = 0.15$ (Fig.~\ref{fig:nosoc_A1}(d)).
 This state is nodal.
 The zero lines of $\Psi(\bk)$ cross the Fermi surface at four points, near $49^\circ$, $131^\circ$, $229^\circ$ and $311^\circ$, and the maximum gap on the Fermi surface is $0.30$.
 The smallest $|E|$ on the $240 \times 240$ mesh ($0.0107$) only measures how close the mesh comes to a node, and is not a gap.
@@ -239,11 +239,10 @@ QPI from a scalar impurity therefore sees the rotation-symmetry breaking of a ne
 This is the statement of Sec.~III: the $|\eta_+|^2$ and $|\eta_-|^2$ bilinears are both $A_1$.
 
 \begin{figure*}[tp]
-    \includegraphics[width=0.85\textwidth]{figs/nosoc_A1imp_all.pdf}
+    \includegraphics[width=0.8\textwidth]{figs/nosoc_A1imp_all.pdf}
     \caption{No SOC, scalar ($A_1$) impurity, $q_0 = |\bm b_1|$.
-    Rows: $s$, extended $s$, $d+id$ and $d_{x^2-y^2}$ pairing.
+    Rows (a)--(d): $s$, extended $s$, $d+id$ and $d_{x^2-y^2}$ pairing.
     Columns: $\operatorname{Re}\delta\rho(\bq)$ and $\delta\rho(\br)$ at $\omega = 0$, then the same at $\omega_2$, which is given on each row.
-    The irrep weights of each $\bq$-map are given below it.
     $\operatorname{Im}\delta\rho(\bq)$ and all spin channels vanish.
     Only the nematic $d_{x^2-y^2}$ state has a component beyond $A_1$, from the $E_2$ irrep, which breaks $C_6$ down to $C_2$.}
     \label{fig:nosoc_A1}
@@ -335,23 +334,35 @@ We take the superconducting mean field from the leading $\bq = 0$ pairing instab
 The gap is normalised to $\Delta_{\text{rms}} = 0.1$, and the impurity is again scalar.
 \begin{itemize}
     \item $U = 0$, $\alpha = 0.1$: the leading instability is non-degenerate (non-chiral), with gap $0.0777$.
-    At $\omega = 0$ and $\omega = 0.0761$, only $\delta\rho_0 \in A_1$ is finite.
+    At $\omega = 0$ and $\omega = 0.0761$, only $\delta\rho_0 \in A_1$ is finite (Fig.~\ref{fig:frg_nonchiral}).
     All spin channels vanish.
     \item $U = 8$, $\alpha = 0.4$: the leading instability is two-fold degenerate.
     We take the chiral combination $(v_0 + i v_1)/\sqrt2$, with chirality $\chi = +1$ and gap $0.0863$ (Fig.~\ref{fig:bands}, right).
-    The full ansatz pattern appears (Fig.~\ref{fig:frg_spin}).
+    The full ansatz pattern appears (Fig.~\ref{fig:frg_spin}, left).
     $\delta\rho_0, \delta\rho_z \in A_1$ and $\operatorname{Im}\delta\rho_{x,y} \in E_1$, each with weight $1$.
     Unlike the ansatz $d+id$ state, the spin signal is already finite at $\omega = 0$, where $\delta\rho_z$ is about $5\%$ of $\delta\rho_0$ (max $|\delta\rho_z(\bq)| = 0.75$ vs.\ $13.7$).
     At the gap edge ($\omega = 0.0846$), the ratio is also about $5\%$ ($1.7\times10^3$ vs.\ $3.2\times10^4$), while $\delta\rho_{x,y}$ reach about $20\%$.
 \end{itemize}
 The chirality signature therefore survives in a microscopically derived gap.
 
-\begin{figure}[tp]
-    \includegraphics[width=\columnwidth]{figs/frg_spin_chiral.pdf}
-    \caption{Spin-resolved QPI for the chiral FRG state of Fig.~\ref{fig:bands}, scalar impurity, $\omega = 0.0846$, $q_0 = |\bm b_1|$.
-    Rows: $\delta\rho_0$, $\delta\rho_x$, $\delta\rho_y$, $\delta\rho_z$; $\delta\rho_z$ has an $A_1$ pattern at about $5\%$ of $\delta\rho_0$.}
+\begin{figure*}[tp]
+    \includegraphics[width=\textwidth]{figs/frg_compare.pdf}
+    \caption{Spin-resolved QPI for the chiral FRG state of Fig.~\ref{fig:bands}, scalar impurity, $\omega = 0.0846$.
+    Left: Born approximation, $q_0 = |\bm b_1|$.
+    Centre: full $T$-matrix at the same $V_0$.
+    Right: full $T$-matrix at the resonance $V_0 = 1.22$ ($\max|\hat T| = 12$), the sharpest of the four at this $\omega$; as in Fig.~\ref{fig:dpid_compare}, the bound state dominates $\delta\rho_0$, while the spin channels keep their pattern.
+    The full-$T$ panels have no $q$ cutoff.
+    Panel conventions as in Fig.~\ref{fig:dpid_compare}; $\delta\rho_z$ is $A_1$ in all three.}
     \label{fig:frg_spin}
-\end{figure}
+\end{figure*}
+
+\begin{figure*}[tp]
+    \includegraphics[width=0.7\textwidth]{figs/frg_nonchiral.pdf}
+    \caption{$\operatorname{Re}\delta\rho_0$ for the non-chiral FRG state ($U = 0$, $\alpha = 0.1$), scalar impurity, $\omega = 0.0761$, as in Fig.~\ref{fig:frg_spin}.
+    All spin channels vanish.
+    This state has no impurity bound states, so there is no resonant case.}
+    \label{fig:frg_nonchiral}
+\end{figure*}
 
 \subsection{Beyond the Born approximation: full $T$-matrix}
 \label{sec:fullT}
@@ -391,23 +402,16 @@ At $V_0 = 0.1$, the full $\hat T$ leaves every entry of Table~\ref{tab:cases} un
 
 \paragraph{FRG pairings.}
 \begin{itemize}
-    \item $U = 0$, $\alpha = 0.1$: there are no bound states, and only $\delta\rho_0 \in A_1$ is finite, as in the Born approximation.
+    \item $U = 0$, $\alpha = 0.1$: there are no bound states, and only $\delta\rho_0 \in A_1$ is finite, as in the Born approximation (Fig.~\ref{fig:frg_nonchiral}, right).
     \item $U = 8$, $\alpha = 0.4$, chiral ($\chi = +1$): the same irreps as in the Born approximation, each with weight $1$.
     At $\omega = 0$ and $V_0 = 0.1$, $\delta\rho_z/\delta\rho_0 = 5.0\%$, unchanged from Born.
-    At the gap edge, the ratio rises from $5.8\%$ to $15\%$ ($2.0\times10^3$ vs.\ $1.3\times10^4$), and $\delta\rho_{x,y}$ reach about $55\%$ of $\delta\rho_0$ (Fig.~\ref{fig:fullT_frg}).
+    At the gap edge, the ratio rises from $5.8\%$ to $15\%$ ($2.0\times10^3$ vs.\ $1.3\times10^4$), and $\delta\rho_{x,y}$ reach about $55\%$ of $\delta\rho_0$ (Fig.~\ref{fig:frg_spin}, centre).
     There are two resonances at $\omega = 0$ ($V_0 = 5.38, 6.56$) and four at the gap edge, compared with one and two for the ansatz $d+id$.
     At these resonances $\delta\rho_z/\delta\rho_0 = 4$--$7\%$ (Table~\ref{tab:resonant}).
 \end{itemize}
 Going beyond Born therefore never adds an irrep to a channel; it only changes the relative amplitudes.
 The chirality signature $\delta\rho_z \in A_1$ survives at all orders.
 For the ansatz $d+id$ state, it also extends to $\omega = 0$.
-
-\begin{figure}[tp]
-    \includegraphics[width=\columnwidth]{figs/fullT_frg_chiral.pdf}
-    \caption{Full $T$-matrix for the chiral FRG state of Fig.~\ref{fig:bands}, $V_0 = 0.1$, $\omega = 0.0846$.
-    The irreps are those of Fig.~\ref{fig:frg_spin}, but $\delta\rho_z$ is now $15\%$ of $\delta\rho_0$.}
-    \label{fig:fullT_frg}
-\end{figure}
 
 \begin{table*}[tp]
     \caption{Full $T$-matrix at the resonant impurity strengths $V_0 = 1/\lambda$, scalar impurity.

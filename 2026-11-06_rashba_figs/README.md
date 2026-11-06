@@ -7,9 +7,9 @@ From this folder:
 | Command | Produces |
 |---|---|
 | `python combined_bands.py` | `figs/bands_combined.{pdf,png}`; prints the BZ gap of each state |
-| `python rashba_spin.py` | `figs/dpid_compare.pdf`, `figs/rashba_born_nonchiral.pdf` |
+| `python rashba_spin.py` | `figs/dpid_compare.pdf`, `figs/rashba_born_nonchiral.pdf`, `figs/frg_compare.pdf`, `figs/frg_nonchiral.pdf` |
 | `python split_T.py` | `split_T.txt`: the resonant (V0 = 1.33) drho split into the tau_0 and tau_z parts of T, max of each and overlap with Born; quoted in Sec. fullT |
-| `./note_assets.sh` | runs both, then copies the three PDFs to `notes/2026-11-03_breaking_TRS/figs/` |
+| `./note_assets.sh` | runs both, then copies the five PDFs to `notes/2026-11-03_breaking_TRS/figs/` |
 
 ## bands_combined
 
@@ -27,5 +27,14 @@ From this folder:
 
 ## rashba_born_nonchiral
 
-- Fig. rashba_nonchiral: s, ext s, dx2y2, Born at omega_2 (0.98 gap; 0.15 for nodal dx2y2, see `../2026-11-06_dx2y2_nodes`), q0 = |b1|, drho_0 only; their spin channels are below `zero_tol`.
+- Fig. rashba_nonchiral, rows (a)-(c) (quoted in the case table): s, ext s, dx2y2, Born at omega_2 (0.98 gap; 0.15 for nodal dx2y2, see `../2026-11-06_dx2y2_nodes`), q0 = |b1|, drho_0 only; their spin channels are below `zero_tol`.
 - Same panel conventions; the q = 0 peak is 3-6x the rest for ext s and dx2y2, so the centre saturates.
+
+## frg_compare
+
+- Fig. frg_spin: chiral FRG state (U = 8, alpha = 0.4, chi = +1) at omega = 0.0846, as dpid_compare with two cases: Born, q0 = |b1| (`../2026-11-05_fullT/data/frg_.../born/`), full T, V0 = 0.1, no cutoff (`data_nocut/frg_.../full/`), and full T at the resonance V0 = 1.22 (`res3/`; the sharpest of the four at this omega, min|eig| 0.102, max|T| 11.9; see `../2026-11-05_fullT/data_nocut/frg_.../tmatrix_frg_chi+1.txt`).
+- frg_nonchiral has no resonance column: the U = 0 state has no bound states (all lambda complex).
+
+## frg_nonchiral
+
+- Fig. frg_nonchiral: the non-chiral FRG state (U = 0, alpha = 0.1) at omega = 0.0761, as frg_compare; drho_0 only, since its spin channels are below `zero_tol` (max ~1e-9).

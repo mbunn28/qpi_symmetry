@@ -1,7 +1,9 @@
-# Rashba, scalar impurity. Two note figures:
+# Rashba, scalar impurity. Four note figures:
 #   dpid_compare.pdf: d+id at omega_2, rows drho_0, x, y, z; column pairs (q, r) for Born (q0 = |b1|),
 #                     full T at V0 = 0.1 and full T at the resonance V0 = 1.33 (no q cutoff).
 #   rashba_born_nonchiral.pdf: s, ext s, dx2y2, Born at omega_2, drho_0 only (their spin channels vanish).
+#   frg_compare.pdf: chiral FRG state at its gap edge, as dpid_compare (resonance V0 = 1.22).
+#   frg_nonchiral.pdf: the U = 0 FRG state, as frg_compare; drho_0 only (its spin channels vanish).
 # Data from ../2026-11-05_fullT.
 import os
 import sys
@@ -19,6 +21,10 @@ from qpi_simulation import setup_mesh, draw_panel, CMAP, NORM  # noqa: E402
 FULLT = os.path.join(ROOT, '2026-11-05_fullT')
 DATA = os.path.join(FULLT, 'data', 'delta0.1_gamma0.001_alpha0.1')
 NOCUT = os.path.join(FULLT, 'data_nocut', 'delta0.1_gamma0.001_alpha0.1', 'dpid')
+FRG_RUN = os.path.join('frg_nu0.5_U8_a0.4_nk24_nkf31', 'delta_rms0.1_gamma0.001', 'frg_chi+1')
+FRG, FRG_NOCUT = os.path.join(FULLT, 'data', FRG_RUN), os.path.join(FULLT, 'data_nocut', FRG_RUN)
+FRG0_RUN = os.path.join('frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01', 'delta_rms0.1_gamma0.001', 'frg')
+FRG0, FRG0_NOCUT = os.path.join(FULLT, 'data', FRG0_RUN), os.path.join(FULLT, 'data_nocut', FRG0_RUN)
 NONCHIRAL = [('s', '$s$'), ('ext_s', r'ext.\ $s$'), ('dx2y2', '$d_{x^2-y^2}$')]
 CH = ['0', 'x', 'y', 'z']
 IM = (False, True, True, False)  # x, y are imaginary in q, 0 and z real
@@ -56,23 +62,20 @@ def colorbar(fig, ax):
                  ticks=[-1, 0, 1], label=r'value / $\max|\cdot|$')
 
 
-def dpid_compare(P, path):
-    born = omega2('dpid')
-    cases = [(r'Born, $V_0 = 0.1$', born),
-             (r'Full $T$, $V_0 = 0.1$', np.load(os.path.join(NOCUT, 'full', 'drho_om0.2095_V0.1000_q0inf.npz'))),
-             (r'Full $T$, $V_0 = 1.33$', np.load(os.path.join(NOCUT, 'res1', 'drho_om0.2095_V1.3279_q0inf.npz')))]
-    fig = plt.figure(figsize=(7.0, 5.0), layout='constrained')
-    top, bottom = fig.subfigures(2, 1, height_ratios=[1, 0.12])
-    wr = [1.1, 1, 1]
-    subs = top.subfigures(1, 3, wspace=0.03, width_ratios=wr)
+def compare(P, cases, path, figsize, channels=range(4), cbar_h=0.12):
+    """Column pair (q, r) per case, one row per channel (non-zero ones only); vertical dividers between cases."""
+    fig = plt.figure(figsize=figsize, layout='constrained')
+    top, bottom = fig.subfigures(2, 1, height_ratios=[1, cbar_h])
+    wr = [1.1] + [1]*(len(cases) - 1)
+    subs = top.subfigures(1, len(cases), wspace=0.03, width_ratios=wr)
     for k, (sf, (title, d)) in enumerate(zip(subs, cases)):
         sf.suptitle(title, fontsize=11)
         sf.get_layout_engine().set(h_pad=0.01, hspace=0)
-        ax = sf.subplots(4, 2)
-        for m in range(4):
-            P.pair(ax[m, 0], ax[m, 1], d, m)
+        ax = sf.subplots(len(channels), 2, squeeze=False)
+        for i, m in enumerate(channels):
+            P.pair(ax[i, 0], ax[i, 1], d, m)
             if k == 0:
-                ax[m, 0].set_ylabel(f'${CH[m]}$', rotation=0, labelpad=10, va='center', fontsize=15)
+                ax[i, 0].set_ylabel(f'${CH[m]}$', rotation=0, labelpad=10, va='center', fontsize=15)
         ax[0, 0].set_title(r'$\delta\rho_i(\bvec{q})$', fontsize=12)
         ax[0, 1].set_title(r'$\delta\rho_i(\bvec{r})$', fontsize=12)
     for x in np.cumsum(wr)[:-1] / sum(wr):  # dividers between the cases
@@ -83,12 +86,36 @@ def dpid_compare(P, path):
     plt.close(fig)
 
 
+def dpid_compare(P, path):
+    cases = [(r'Born, $V_0 = 0.1$', omega2('dpid')),
+             (r'Full $T$, $V_0 = 0.1$', np.load(os.path.join(NOCUT, 'full', 'drho_om0.2095_V0.1000_q0inf.npz'))),
+             (r'Full $T$, $V_0 = 1.33$', np.load(os.path.join(NOCUT, 'res1', 'drho_om0.2095_V1.3279_q0inf.npz')))]
+    compare(P, cases, path, (7.0, 5.0))
+
+
+def frg_compare(P, path):
+    """Chiral FRG state (U = 8, alpha = 0.4, chi = +1) at the gap edge: Born (q0 = |b1|), full T at V0 = 0.1 and at
+    the sharpest gap-edge resonance V0 = 1.22 (res3; no cutoff)."""
+    cases = [(r'Born, $V_0 = 0.1$', np.load(os.path.join(FRG, 'born', 'drho_om0.0846_V0.1000_q01.0000.npz'))),
+             (r'Full $T$, $V_0 = 0.1$', np.load(os.path.join(FRG_NOCUT, 'full', 'drho_om0.0846_V0.1000_q0inf.npz'))),
+             (r'Full $T$, $V_0 = 1.22$', np.load(os.path.join(FRG_NOCUT, 'res3', 'drho_om0.0846_V1.2163_q0inf.npz')))]
+    compare(P, cases, path, (7.0, 5.0))
+
+
+def frg_nonchiral(P, path):
+    """Non-chiral FRG state (U = 0, alpha = 0.1) at omega = 0.0761, as frg_compare; only drho_0 is finite."""
+    cases = [(r'Born, $V_0 = 0.1$', np.load(os.path.join(FRG0, 'born', 'drho_om0.0761_V0.1000_q01.0000.npz'))),
+             (r'Full $T$, $V_0 = 0.1$', np.load(os.path.join(FRG0_NOCUT, 'full', 'drho_om0.0761_V0.1000_q0inf.npz')))]
+    compare(P, cases, path, (4.9, 2.1), channels=[0], cbar_h=0.35)
+
+
 def nonchiral(P, path):
     fig, ax = plt.subplots(3, 2, figsize=(3.4, 4.6), layout='constrained')
     for i, (folder, tex) in enumerate(NONCHIRAL):
         d = omega2(folder)
         P.pair(ax[i, 0], ax[i, 1], d, 0)
         ax[i, 0].set_ylabel(tex + '\n' + rf'$\omega_2 = {float(d["omega"]):.4f}$', fontsize=11)
+        ax[i, 0].text(-0.42, 1.0, f'({"abc"[i]})', transform=ax[i, 0].transAxes, ha='right', va='top', fontsize=12)  # quoted in the case table
     ax[0, 0].set_title(r'$\delta\rho_0(\bvec{q})$', fontsize=12)
     ax[0, 1].set_title(r'$\delta\rho_0(\bvec{r})$', fontsize=12)
     colorbar(fig, ax)
@@ -102,3 +129,5 @@ if __name__ == '__main__':
     P = Panels()
     dpid_compare(P, os.path.join(out, 'dpid_compare.pdf'))
     nonchiral(P, os.path.join(out, 'rashba_born_nonchiral.pdf'))
+    frg_compare(P, os.path.join(out, 'frg_compare.pdf'))
+    frg_nonchiral(P, os.path.join(out, 'frg_nonchiral.pdf'))

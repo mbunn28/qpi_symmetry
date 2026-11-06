@@ -19,7 +19,7 @@ From this folder, in order (each step takes under a minute):
 | `python qpi_fullT.py nocut` | as `python qpi_fullT.py`, with no q cutoff, into `data_nocut/` (the note's full-T results) |
 | `python qpi_fullT_frg.py nocut` | as `python qpi_fullT_frg.py`, with no q cutoff, into `data_nocut/` |
 | `python checks.py` | `checks.txt`: validation, see below |
-| `./note_assets.sh` | runs `resonant_table.py` (`resonant_table.tex`), then copies the figures (from `data_nocut/`) and that table into `notes/2026-11-03_breaking_TRS/{figs,tables}` |
+| `./note_assets.sh` | runs `resonant_table.py` (`resonant_table.tex`), then copies that table into `notes/2026-11-03_breaking_TRS/tables` (the full-T figures are made in `../2026-11-06_rashba_figs`) |
 
 Smoke test, written outside `data/`: `python qpi_fullT.py smoke <dir>` (Nk = 48, also compares with `born_S`).
 

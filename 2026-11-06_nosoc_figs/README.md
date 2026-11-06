@@ -14,7 +14,8 @@ From this folder:
 
 - **Layout:** rows are s, ext s, d+id and dx2y2. Columns are Re drho(q) and drho(r) at w = 0, then the same at w_2.
 - **w_2:** 0.98 x gap for the gapped states. For nodal dx2y2 it is 0.15 (`../2026-11-06_dx2y2_nodes`).
-- **Panels:** each is normalised to its own maximum, which is given in the corner, and the q panels show their C6v irrep weights. "~0" means below the dataset's `zero_tol`.
+- **Style:** as `../2026-11-06_rashba_figs` dpid_compare: each panel is normalised to its own maximum, given below it; no irrep weights (they are in the case table), ticks or frames. "~0" means below the dataset's `zero_tol`.
+- **nosoc_A1imp_all:** rows labelled (a)-(d), quoted in the case table, and separated by horizontal lines; column pairs headed w = 0 and w_2.
 - **A2 in the note:** almost every A2 panel is zero, so the note uses `nosoc_A2imp_nonzero.pdf`. It has one row per (pairing, w) with a finite Re drho_0, which is only d+id at w_2. `nosoc_A2imp_all.pdf` is still made, for reference.
 - **Why only Re drho_0:** without SOC, Im drho_0(q) and all spin channels are at round-off level.
 

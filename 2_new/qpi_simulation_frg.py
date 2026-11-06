@@ -10,6 +10,7 @@ from matplotlib.collections import PolyCollection
 from matplotlib.colors import Normalize
 from matplotlib.patches import Polygon
 from matplotlib.path import Path
+from qpi_simulation import plot_note
 
 mpl.rc('font', **{'family': 'serif',
                   'serif': ['Computer Modern Roman'], 'size': 8})
@@ -537,7 +538,12 @@ def main(run_dir=RUN_DIR, chirality=1, delta_mag=1.0, gamma=1e-2, v_mag=1e-1, Nk
 
             plot_drho(datasets, geom, r_window, os.path.join(out_dir, f'drho_{tag}.png'), title)
             plot_irreps(datasets, geom, r_window, os.path.join(out_dir, f'irreps_{tag}.png'), title)
+            plot_note(datasets, geom, r_window, os.path.join(out_dir, f'note_drho_{tag}.pdf'))
+            np.savez(os.path.join(out_dir, f'drho_{tag}.npz'), drho=drho, drho_r=drho_r, zero_tol=zero_tol,
+                     omega=om, gap_size=gap_size)
 
 
 if __name__=='__main__':
-    main(q0_factors=np.array([1]))
+    params = dict(q0_factors=np.array([1]), delta_mag=1e-1, gamma=1e-3, Nk=240, Nq=120)
+    main(**params)
+    main(run_dir='/Users/mtb31/Library/CloudStorage/OneDrive-Personal/Documents/StAndrews/triangular_rashba/nu0.5_U0_a0.1/V0.9_nk36_nkf25_c4.01', **params)

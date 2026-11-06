@@ -1,0 +1,38 @@
+== dx2y2, mu=-0.1, |Delta|=0.1
+  helical formula vs BdG (alpha=0.1, Nk=60): max diff 7.1e-15
+  alpha=0.1, Nk=   60: min|E| on mesh = 2.122e-02
+  alpha=0.1, Nk=  120: min|E| on mesh = 2.122e-02
+  alpha=0.1, Nk=  240: min|E| on mesh = 5.040e-03
+  alpha=0.1, Nk=  480: min|E| on mesh = 2.929e-03
+  alpha=0.1, Nk=  960: min|E| on mesh = 2.929e-03
+  alpha=0.1, Nk= 1920: min|E| on mesh = 7.513e-04
+  alpha=0.1: continuum min|E| = 5.55e-17 on band - at k = [-1.49905  1.70054]
+  alpha=0.1, FS xi_+: 4 nodes at [ 49.4 130.6 229.4 310.6] deg, max|Delta| on FS = 0.3095
+  alpha=0.1, FS xi_-: 4 nodes at [ 48.6 131.4 228.6 311.4] deg, max|Delta| on FS = 0.2791
+  alpha=0.0, Nk=   60: min|E| on mesh = 4.555e-02
+  alpha=0.0, Nk=  120: min|E| on mesh = 2.411e-02
+  alpha=0.0, Nk=  240: min|E| on mesh = 1.068e-02
+  alpha=0.0, Nk=  480: min|E| on mesh = 7.384e-03
+  alpha=0.0, Nk=  960: min|E| on mesh = 1.312e-03
+  alpha=0.0, Nk= 1920: min|E| on mesh = 1.312e-03
+  alpha=0.0: continuum min|E| = 8.62e-17 on band + at k = [-1.55413  1.7868 ]
+  alpha=0.0, FS xi_+: 4 nodes at [ 49. 131. 229. 311.] deg, max|Delta| on FS = 0.2950
+== ext s, mu=-0.1, |Delta|=0.1
+  helical formula vs BdG (alpha=0.1, Nk=60): max diff 3.6e-15
+  alpha=0.1, Nk=   60: min|E| on mesh = 1.908e-02
+  alpha=0.1, Nk=  120: min|E| on mesh = 1.908e-02
+  alpha=0.1, Nk=  240: min|E| on mesh = 1.908e-02
+  alpha=0.1, Nk=  480: min|E| on mesh = 1.908e-02
+  alpha=0.1, Nk=  960: min|E| on mesh = 1.896e-02
+  alpha=0.1, Nk= 1920: min|E| on mesh = 1.893e-02
+  alpha=0.1: continuum min|E| = 1.89e-02 on band + at k = [-2.1169   1.29586]
+  alpha=0.1, FS xi_+: 0 nodes at [] deg, max|Delta| on FS = 0.0215
+  alpha=0.1, FS xi_-: 0 nodes at [] deg, max|Delta| on FS = 0.0435
+  alpha=0.0, Nk=   60: min|E| on mesh = 1.379e-02
+  alpha=0.0, Nk=  120: min|E| on mesh = 1.089e-02
+  alpha=0.0, Nk=  240: min|E| on mesh = 1.004e-02
+  alpha=0.0, Nk=  480: min|E| on mesh = 9.959e-03
+  alpha=0.0, Nk=  960: min|E| on mesh = 9.951e-03
+  alpha=0.0, Nk= 1920: min|E| on mesh = 9.950e-03
+  alpha=0.0: continuum min|E| = 9.95e-03 on band + at k = [-0.44217 -2.33707]
+  alpha=0.0, FS xi_+: 0 nodes at [] deg, max|Delta| on FS = 0.0100

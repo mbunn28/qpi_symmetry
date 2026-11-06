@@ -1,0 +1,14 @@
+fft_S vs born_S, s, Nk=48, Nq=24, full T: rel diff 7.4e-15
+fft_S vs born_S, d+id, Nk=48, Nq=24, full T: rel diff 8.6e-15
+Born data/delta0.1_gamma0.001_alpha0.1/dpid/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/dpid/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 2.8e-12
+Born data/delta0.1_gamma0.001_alpha0.1/dpid/born/drho_om0.2095_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/dpid/drho_om0.2095_V0.1000_q01.0000.npz: rel diff 4.5e-14
+Born data/delta0.1_gamma0.001_alpha0.1/dx2y2/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/dx2y2/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 1.4e-14
+Born data/delta0.1_gamma0.001_alpha0.1/ext_s/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/ext_s/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 1.1e-13
+Born data/delta0.1_gamma0.001_alpha0.1/ext_s/born/drho_om0.0187_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/ext_s/drho_om0.0187_V0.1000_q01.0000.npz: rel diff 1.9e-14
+Born data/delta0.1_gamma0.001_alpha0.1/s/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/s/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 2.9e-12
+Born data/delta0.1_gamma0.001_alpha0.1/s/born/drho_om0.0980_V0.1000_q01.0000.npz vs 2_new/data/delta0.1_gamma0.001_alpha0.1/q0_1.00e+00/s/drho_om0.0980_V0.1000_q01.0000.npz: rel diff 4.4e-14
+Born data/delta0.1_gamma0.001_alpha0/dx2y2/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2026-11-05_nosoc/data/delta0.1_gamma0.001/A1/q0_1.00e+00/dx2y2/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 6.4e-14
+Born data/frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01/delta_rms0.1_gamma0.001/frg/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01/delta_rms0.1_gamma0.001/q0_1.00e+00/frg/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 2.7e-12
+Born data/frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01/delta_rms0.1_gamma0.001/frg/born/drho_om0.0761_V0.1000_q01.0000.npz vs 2_new/data/frg_nu0.5_U0_a0.1_V0.9_nk36_nkf25_c4.01/delta_rms0.1_gamma0.001/q0_1.00e+00/frg/drho_om0.0761_V0.1000_q01.0000.npz: rel diff 1.1e-14
+Born data/frg_nu0.5_U8_a0.4_nk24_nkf31/delta_rms0.1_gamma0.001/frg_chi+1/born/drho_om0.0000_V0.1000_q01.0000.npz vs 2_new/data/frg_nu0.5_U8_a0.4_nk24_nkf31/delta_rms0.1_gamma0.001/q0_1.00e+00/frg_chi+1/drho_om0.0000_V0.1000_q01.0000.npz: rel diff 1.2e-12
+Born data/frg_nu0.5_U8_a0.4_nk24_nkf31/delta_rms0.1_gamma0.001/frg_chi+1/born/drho_om0.0846_V0.1000_q01.0000.npz vs 2_new/data/frg_nu0.5_U8_a0.4_nk24_nkf31/delta_rms0.1_gamma0.001/q0_1.00e+00/frg_chi+1/drho_om0.0846_V0.1000_q01.0000.npz: rel diff 3.5e-14

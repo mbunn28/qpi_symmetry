@@ -1,0 +1,2 @@
+FRG U=0          nu0.5_U0_a0.1/V0.9_nk36_nkf25_c4.01    tbfile=triangular_rashba_alpha0.1_hr.dat  U=0.0  V=0.9  J=0.0  chemical_potential=-0.8392  nu=0.5001
+FRG U=8, chi=+1  nu0.5_U8_a0.4/nk24_nkf31               tbfile=triangular_rashba_alpha0.4_hr.dat  U=8.0  V=absent  J=0.0  chemical_potential=-0.8961  nu=0.5000

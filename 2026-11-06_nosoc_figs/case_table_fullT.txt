@@ -1,0 +1,11 @@
+Full T (v = 0.1) vs Born: entries of the case table that differ
+no SOC           $A_1$: $s$                         A1  same
+no SOC           $A_1$: ext.\ $s$                   A1  same
+no SOC           $E_2$: $d+id$                      A1  same
+no SOC           $E_2$: $d_{x^2-y^2}$               A1  same
+Rashba           $A_1$: $s$                         A1  same
+Rashba           $A_1$: ext.\ $s$                   A1  same
+Rashba           $E_2$: $d+id$                      A1  x: Born $\mathrm{Im}$: $E_1$$^\dagger$ -> full $\mathrm{Im}$: $E_1$; y: Born $\mathrm{Im}$: $E_1$$^\dagger$ -> full $\mathrm{Im}$: $E_1$; z: Born $A_1$$^\dagger$ -> full $A_1$
+Rashba           $E_2$: $d_{x^2-y^2}$               A1  same
+Rashba--Hubbard  $A_1$: $U{=}0, V{=}0.9$            A1  same
+Rashba--Hubbard  $E_2$: $U{=}8, V{=}0$, $\chi{=}+1$ A1  same

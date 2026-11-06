@@ -297,6 +297,31 @@ def plot_irreps(datasets, geom, r_window, path, title, min_weight=1e-4):
     fig.suptitle(title)
     fig.savefig(path, dpi=300)
     plt.close(fig)
+def plot_note(datasets, geom, r_window, path):
+    """Note figure: no title, only non-zero panels; one row per channel with any signal, q panels then r."""
+    rows = [[d for d in datasets[3*m:3*m + 3] if not d['negligible']] for m in range(len(CHANNELS))]
+    rows = [r for r in rows if r]
+    if not rows:
+        return
+    ncol = max(len(r) for r in rows)
+    fig, ax = plt.subplots(len(rows), ncol, figsize=(1.6*ncol + 0.9, 1.6*len(rows)),
+                           layout='constrained', squeeze=False)
+    for i, row in enumerate(rows):
+        for j in range(ncol):
+            a = ax[i, j]
+            if j >= len(row):
+                a.set_axis_off()
+                continue
+            d = row[j]
+            vmax = np.amax(np.abs(d['img']))
+            draw_panel(a, d['kind'], d['img']/vmax, *geom[d['kind']], r_window)
+            a.set_title(d['label'])
+            corner_note(a, f'{vmax:.2g}')
+            a.set_xticks([])
+            a.set_yticks([])
+    add_colorbar(fig, ax)
+    fig.savefig(path, dpi=300)
+    plt.close(fig)
 
 def high_symmetry_path(b, n=150):
     """Gamma-M-K-Gamma: k points, cumulative distance, node positions and labels."""
@@ -431,9 +456,11 @@ def main(pairing, mu=-0.1, alpha=0.1, delta_mag=1.0, gamma=1e-2, v_mag=1e-1, Nk=
 
             plot_drho(datasets, geom, r_window, os.path.join(out_dir, f'drho_{tag}.png'), title)
             plot_irreps(datasets, geom, r_window, os.path.join(out_dir, f'irreps_{tag}.png'), title)
+            plot_note(datasets, geom, r_window, os.path.join(out_dir, f'note_drho_{tag}.pdf'))
+            np.savez(os.path.join(out_dir, f'drho_{tag}.npz'), drho=drho, drho_r=drho_r, zero_tol=zero_tol,
+                     omega=om, gap_size=gap_size)
 
 
 if __name__=='__main__':
     for pairing in ['s', 'ext s', 'd+id', 'dx2y2']:
-        q_factors = np.array([1])
-        main(pairing, q0_factors=q_factors)
+        main(pairing, q0_factors=np.array([1]), delta_mag=1e-1, gamma=1e-3, Nk=240, Nq=120)

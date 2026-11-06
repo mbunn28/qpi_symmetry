@@ -12,6 +12,7 @@ __pycache__/
 
 # Generated simulation output
 data/
+data_nocut/
 old/
 *.npz
 *.zip
